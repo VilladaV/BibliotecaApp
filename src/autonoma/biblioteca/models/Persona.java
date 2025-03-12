@@ -32,8 +32,19 @@ public class Persona {
     Correo de la persona
     */
     private String correoElectronico;
-
     
+    /*
+    Constructor
+    */
+    
+    public Persona(String nombre, String documentoIdentidad, String correoElectronico){
+        this.nombre = nombre;
+        this.documentoIdentidad = documentoIdentidad;
+        this.correoElectronico = correoElectronico;
+    };
+    
+
+    /// Getters & Setters
     
     public String getNombre() {
         return nombre;
