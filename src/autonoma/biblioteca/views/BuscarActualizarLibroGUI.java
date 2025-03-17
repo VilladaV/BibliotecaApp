@@ -3,18 +3,61 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package autonoma.biblioteca.views;
-
+import autonoma.biblioteca.models.Biblioteca;
+import autonoma.biblioteca.models.Libro;
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import javax.swing.JOptionPane;
 /**
  *
  * @author PABLO VI
  */
 public class BuscarActualizarLibroGUI extends javax.swing.JFrame {
-
+    private Biblioteca biblioteca;
+    private BibliotecaGUI bibliotecaGUI;
+    private Libro libroExistente;
+    private boolean buscando = true;
     /**
      * Creates new form BuscarLibroGUI
      */
-    public BuscarActualizarLibroGUI() {
+    public BuscarActualizarLibroGUI(Biblioteca biblioteca, BibliotecaGUI bibliotecaGUI) {
         initComponents();
+        this.biblioteca = biblioteca;
+        this.bibliotecaGUI = bibliotecaGUI;
+        this.libroExistente = null;
+        this.setLocationRelativeTo(null); // Centrar la ventana
+        habilitarCampos(false);
+        ActualizarL.setEnabled(false);
+    }
+    
+    public BuscarActualizarLibroGUI(Biblioteca biblioteca, Libro libroExistente, BibliotecaGUI bibliotecaGUI) {
+        initComponents();
+        this.biblioteca = biblioteca;
+        this.bibliotecaGUI = bibliotecaGUI;
+        this.libroExistente = libroExistente;
+        this.setLocationRelativeTo(null); // Centrar la ventana
+        IDABuscar.setText(String.valueOf(libroExistente.getId()));
+        IDABuscar.setEnabled(false);
+        Buscar.setEnabled(false);
+        llenarCampos(libroExistente);
+        habilitarCampos(true);
+        ActualizarL.setEnabled(true);
+        buscando = false;
+    }
+    
+        private void habilitarCampos(boolean habilitar) {
+        Titulo.setEditable(habilitar);
+        Autor.setEditable(habilitar);
+        Editorial.setEditable(habilitar);
+        Profesión.setEditable(habilitar);
+    }
+
+    private void llenarCampos(Libro libro) {
+        ID.setText(String.valueOf(libro.getId()));
+        Titulo.setText(libro.getTitulo());
+        // Autor.setText(""); // No se tiene la información del autor
+        // Editorial.setText("");
+        // Profesión.setText("");
     }
 
     /**
@@ -84,6 +127,11 @@ public class BuscarActualizarLibroGUI extends javax.swing.JFrame {
 
         Titulo.setBackground(java.awt.Color.lightGray);
         Titulo.setBorder(null);
+        Titulo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TituloActionPerformed(evt);
+            }
+        });
 
         Autor.setBackground(java.awt.Color.lightGray);
         Autor.setBorder(null);
@@ -106,6 +154,11 @@ public class BuscarActualizarLibroGUI extends javax.swing.JFrame {
         });
 
         Cancelar.setText("Cancelar");
+        Cancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -212,7 +265,23 @@ public class BuscarActualizarLibroGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarActionPerformed
-        // TODO add your handling code here:
+        try {
+            long idBuscar = Long.parseLong(IDABuscar.getText());
+            Libro libroEncontrado = biblioteca.buscarLibro(idBuscar);
+            if (libroEncontrado != null) {
+                libroExistente = libroEncontrado;
+                llenarCampos(libroEncontrado);
+                habilitarCampos(true);
+                ActualizarL.setEnabled(true);
+                IDABuscar.setEnabled(false);
+                Buscar.setEnabled(false);
+                buscando = false;
+            } else {
+                JOptionPane.showMessageDialog(this, "No se encontró ningún libro con ese ID.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Por favor, ingrese un ID válido.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_BuscarActionPerformed
 
     private void EditorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditorialActionPerformed
@@ -224,8 +293,40 @@ public class BuscarActualizarLibroGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_IDActionPerformed
 
     private void ActualizarLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarLActionPerformed
-        // TODO add your handling code here:
+        if (libroExistente != null) {
+            try {
+                long id = Long.parseLong(ID.getText());
+                String titulo = Titulo.getText();
+                // String autor = Autor.getText();
+                // String editorial = Editorial.getText();
+                // String profesion = Profesión.getText();
+
+                Libro nuevoLibro = new Libro(id, titulo);
+                if (biblioteca.actualizarLibro(libroExistente.getId(), nuevoLibro)) {
+                    JOptionPane.showMessageDialog(this, "Libro actualizado correctamente.");
+                    bibliotecaGUI.actualizarTabla();
+                    this.dispose();
+                    bibliotecaGUI.setEnabled(true);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Error al actualizar el libro.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Por favor, ingrese un ID válido.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "No se ha buscado ningún libro para actualizar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_ActualizarLActionPerformed
+
+    private void TituloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TituloActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TituloActionPerformed
+
+    private void CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarActionPerformed
+        this.dispose();
+        bibliotecaGUI.setEnabled(true);
+    }//GEN-LAST:event_CancelarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -258,7 +359,8 @@ public class BuscarActualizarLibroGUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new BuscarActualizarLibroGUI().setVisible(true);
+                // Esto se modificará cuando se llame desde BibliotecaGUI
+                // new BuscarActualizarLibroGUI().setVisible(true);
             }
         });
     }

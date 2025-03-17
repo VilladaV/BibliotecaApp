@@ -3,18 +3,35 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package autonoma.biblioteca.views;
+import autonoma.biblioteca.models.Biblioteca;
+import autonoma.biblioteca.models.Libro;
+import javax.swing.table.DefaultTableModel;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author PABLO VI
  */
 public class BibliotecaGUI extends javax.swing.JFrame {
-
+    private Biblioteca biblioteca;
+    private DefaultTableModel tablaModel;
     /**
      * Creates new form BibliotecaGUI
      */
     public BibliotecaGUI() {
+        biblioteca = new Biblioteca();
         initComponents();
+        tablaModel = (DefaultTableModel) TablaLibros.getModel();
+        cargarLibrosTabla();
+    }
+    //Act tabla debe ser privado
+    private void cargarLibrosTabla() {
+        tablaModel.setRowCount(0); // Limpiar la tabla
+        ArrayList<Libro> libros = biblioteca.obtenerLibrosAlfabeticamente();
+        for (Libro libro : libros) {
+            tablaModel.addRow(new Object{libro.getTitulo(), "Autor Pendiente", libro.getId()}); // Autor pendiente hasta tener la clase Autor
+        }
     }
 
     /**
@@ -173,23 +190,50 @@ public class BibliotecaGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void AgregarLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgregarLActionPerformed
-        // TODO add your handling code here:
+        AgregarLibroGui agregarGUI = new AgregarLibroGui(biblioteca, this);
+        agregarGUI.setVisible(true);
+        this.setEnabled(false);
+
     }//GEN-LAST:event_AgregarLActionPerformed
 
     private void ActualizarLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarLActionPerformed
-        // TODO add your handling code here:
+        int filaSeleccionada = TablaLibros.getSelectedRow();
+        if (filaSeleccionada != -1) {
+            long idLibro = (long) TablaLibros.getValueAt(filaSeleccionada, 2);
+            Libro libroAActualizar = biblioteca.buscarLibro(idLibro);
+            if (libroAActualizar != null) {
+                BuscarActualizarLibroGUI actualizarGUI = new BuscarActualizarLibroGUI(biblioteca, libroAActualizar, this);
+                actualizarGUI.setVisible(true);
+                this.setEnabled(false);
+            } else {
+                JOptionPane.showMessageDialog(this, "No se encontró el libro con ID: " + idLibro, "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Seleccione un libro para actualizar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_ActualizarLActionPerformed
 
     private void BuscarLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarLActionPerformed
-        // TODO add your handling code here:
+        BuscarActualizarLibroGUI buscarGUI = new BuscarActualizarLibroGUI(biblioteca, this);
+        buscarGUI.setVisible(true);
+        this.setEnabled(false);
     }//GEN-LAST:event_BuscarLActionPerformed
 
     private void OrdenarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OrdenarActionPerformed
-        // TODO add your handling code here:
+        cargarLibrosTabla();
+        JOptionPane.showMessageDialog(this, "Libros ordenados alfabéticamente.");
     }//GEN-LAST:event_OrdenarActionPerformed
 
     private void EliminarLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarLActionPerformed
-        // TODO add your handling code here:
+        int filaSeleccionada = TablaLibros.getSelectedRow();
+        if (filaSeleccionada != -1) {
+            long idLibro = (long) TablaLibros.getValueAt(filaSeleccionada, 2);
+            EliminarLibroGUI eliminarGUI = new EliminarLibroGUI(biblioteca, idLibro, this);
+            eliminarGUI.setVisible(true);
+            this.setEnabled(false);
+        } else {
+            JOptionPane.showMessageDialog(this, "Seleccione un libro para eliminar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_EliminarLActionPerformed
 
     /**
@@ -219,6 +263,7 @@ public class BibliotecaGUI extends javax.swing.JFrame {
         }
         //</editor-fold>
 
+
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -241,4 +286,18 @@ public class BibliotecaGUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton salir;
     // End of variables declaration//GEN-END:variables
+
+    private void RefrescarActionPerformed(java.awt.event.ActionEvent evt) {
+        cargarLibrosTabla();
+    }
+
+    private void salirActionPerformed(java.awt.event.ActionEvent evt) {
+        System.exit(0);
+    }
+
+    public void actualizarTabla() {
+        cargarLibrosTabla();
+    }
 }
+
+

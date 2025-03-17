@@ -3,18 +3,27 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package autonoma.biblioteca.views;
-
+import autonoma.biblioteca.models.Biblioteca;
+import autonoma.biblioteca.models.Libro;
+import autonoma.biblioteca.models.Autor;
+import javax.swing.JOptionPane;
 /**
  *
  * @author PABLO VI
  */
 public class AgregarLibroGui extends javax.swing.JFrame {
-
+    private Biblioteca biblioteca;
+    private BibliotecaGUI bibliotecaGUI;
     /**
      * Creates new form AgregarLibroGui
+     * @param biblioteca
+     * @param bibliotecaGUI
      */
-    public AgregarLibroGui() {
+    public AgregarLibroGui(Biblioteca biblioteca, BibliotecaGUI bibliotecaGUI) {
         initComponents();
+        this.biblioteca = biblioteca;
+        this.bibliotecaGUI = bibliotecaGUI;
+        this.setLocationRelativeTo(null); // Centrar la ventana
     }
 
     /**
@@ -91,6 +100,11 @@ public class AgregarLibroGui extends javax.swing.JFrame {
         });
 
         Cancelar.setText("Cancelar");
+        Cancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -149,13 +163,13 @@ public class AgregarLibroGui extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Profesión, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel5))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ID, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Editorial, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(Editorial, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ID, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(32, 32, 32)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Cancelar)
@@ -192,43 +206,47 @@ public class AgregarLibroGui extends javax.swing.JFrame {
     }//GEN-LAST:event_IDActionPerformed
 
     private void AñadirLibroListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AñadirLibroListaActionPerformed
-        // TODO add your handling code here:
+        try {
+            long id = Long.parseLong(ID.getText());
+            String titulo = Titulo.getText();
+            // String autor = Autor.getText(); // No se está utilizando la clase Autor por ahora
+            // String editorial = Editorial.getText();
+            // String profesion = Profesión.getText();
+
+            Libro nuevoLibro = new Libro(id, titulo); // Solo se crea el libro con ID y título
+            if (biblioteca.agregarLibro(nuevoLibro)) {
+                JOptionPane.showMessageDialog(this, "Libro agregado correctamente.");
+                bibliotecaGUI.actualizarTabla();
+                this.dispose();
+                bibliotecaGUI.setEnabled(true);
+            } else {
+                JOptionPane.showMessageDialog(this, "El libro con ese ID ya existe.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Por favor, ingrese un ID válido.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_AñadirLibroListaActionPerformed
+
+    private void CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarActionPerformed
+        this.dispose();
+        bibliotecaGUI.setEnabled(true);
+    }//GEN-LAST:event_CancelarActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AgregarLibroGui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AgregarLibroGui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AgregarLibroGui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AgregarLibroGui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+public static void main(String args[]) {
+    /* Set the Nimbus look and feel */
+    // Look and feel setting code (optional)
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new AgregarLibroGui().setVisible(true);
-            }
-        });
-    }
+    /* Create and display the form */
+    java.awt.EventQueue.invokeLater(new Runnable() {
+        public void run() {
+                // Esto se modificará cuando se llame desde BibliotecaGUI
+                // new AgregarLibroGui().setVisible(true);
+        }
+    });
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField Autor;
@@ -246,4 +264,4 @@ public class AgregarLibroGui extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
-}
+

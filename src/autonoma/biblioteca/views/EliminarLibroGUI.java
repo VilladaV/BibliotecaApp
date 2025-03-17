@@ -1,16 +1,36 @@
 package autonoma.biblioteca.views;
-
+import autonoma.biblioteca.models.Biblioteca;
+import javax.swing.JOptionPane;
 /**
  *
  * @author PABLO VI
  */
-public class EliminarLibro extends javax.swing.JFrame {
-
+public class EliminarLibroGUI extends javax.swing.JFrame {
+    private Biblioteca biblioteca;
+    private long idLibroAEliminar;
+    private BibliotecaGUI bibliotecaGUI;
     /**
      * Creates new form EliminarLibro
+     * @param biblioteca
+     * @param idLibroAEliminar
+     * @param bibliotecaGUI
      */
-    public EliminarLibro() {
+public EliminarLibroGUI(Biblioteca biblioteca, long idLibroAEliminar, BibliotecaGUI bibliotecaGUI) {
         initComponents();
+        this.biblioteca = biblioteca;
+        this.idLibroAEliminar = idLibroAEliminar;
+        this.bibliotecaGUI = bibliotecaGUI;
+        IDABuscar.setText(String.valueOf(idLibroAEliminar));
+        IDABuscar.setEnabled(false);
+        Buscar.setEnabled(false);
+        this.setLocationRelativeTo(null); // Centrar la ventana
+    }
+
+    public EliminarLibroGUI(Biblioteca biblioteca, BibliotecaGUI bibliotecaGUI) {
+        initComponents();
+        this.biblioteca = biblioteca;
+        this.bibliotecaGUI = bibliotecaGUI;
+        this.setLocationRelativeTo(null); // Centrar la ventana
     }
 
     /**
@@ -47,6 +67,11 @@ public class EliminarLibro extends javax.swing.JFrame {
         });
 
         EliminarL.setText("Eliminar");
+        EliminarL.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EliminarLActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -108,8 +133,37 @@ public class EliminarLibro extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarActionPerformed
-        // TODO add your handling code here:
+    try {
+            long idBuscar = Long.parseLong(IDABuscar.getText());
+            if (biblioteca.buscarLibro(idBuscar) != null) {
+                idLibroAEliminar = idBuscar;
+                EliminarL.setEnabled(true);
+                IDABuscar.setEnabled(false);
+                Buscar.setEnabled(false);
+            } else {
+                JOptionPane.showMessageDialog(this, "No se encontró ningún libro con ese ID.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Por favor, ingrese un ID válido.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_BuscarActionPerformed
+
+    private void EliminarLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarLActionPerformed
+        int confirmacion = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea eliminar el libro con ID: " + idLibroAEliminar + "?", "Confirmar Eliminación", JOptionPane.YES_NO_OPTION);
+        if (confirmacion == JOptionPane.YES_OPTION) {
+            if (biblioteca.eliminarLibro(idLibroAEliminar)) {
+                JOptionPane.showMessageDialog(this, "Libro eliminado correctamente.");
+                bibliotecaGUI.actualizarTabla();
+                this.dispose();
+                bibliotecaGUI.setEnabled(true);
+            } else {
+                JOptionPane.showMessageDialog(this, "Error al eliminar el libro.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            this.dispose();
+            bibliotecaGUI.setEnabled(true);
+        }
+    }//GEN-LAST:event_EliminarLActionPerformed
 
     /**
      * @param args the command line arguments
@@ -128,20 +182,22 @@ public class EliminarLibro extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(EliminarLibro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EliminarLibroGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(EliminarLibro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EliminarLibroGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(EliminarLibro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EliminarLibroGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(EliminarLibro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EliminarLibroGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new EliminarLibro().setVisible(true);
+                // Esto se modificará cuando se llame desde BibliotecaGUI
+                // new EliminarLibro().setVisible(true);
             }
         });
     }
