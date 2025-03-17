@@ -14,8 +14,8 @@ import javax.swing.JOptionPane;
  * @author PABLO VI
  */
 public class BibliotecaGUI extends javax.swing.JFrame {
-    private Biblioteca biblioteca;
-    private DefaultTableModel tablaModel;
+    private final Biblioteca biblioteca;
+    private final DefaultTableModel tablaModel;
     /**
      * Creates new form BibliotecaGUI
      */
@@ -25,12 +25,13 @@ public class BibliotecaGUI extends javax.swing.JFrame {
         tablaModel = (DefaultTableModel) TablaLibros.getModel();
         cargarLibrosTabla();
     }
-    //Act tabla debe ser privado
+    // Método para cargar los libros en la tabla
     private void cargarLibrosTabla() {
+        DefaultTableModel tablaModel = (DefaultTableModel) TablaLibros.getModel();
         tablaModel.setRowCount(0); // Limpiar la tabla
         ArrayList<Libro> libros = biblioteca.obtenerLibrosAlfabeticamente();
         for (Libro libro : libros) {
-            tablaModel.addRow(new Object{libro.getTitulo(), "Autor Pendiente", libro.getId()}); // Autor pendiente hasta tener la clase Autor
+            tablaModel.addRow(new Object[]{libro.getTitulo(), "Autor Pendiente", libro.getId()}); // Corrección aquí
         }
     }
 

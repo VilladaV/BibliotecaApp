@@ -5,7 +5,6 @@
 package autonoma.biblioteca.views;
 import autonoma.biblioteca.models.Biblioteca;
 import autonoma.biblioteca.models.Libro;
-import autonoma.biblioteca.models.Autor;
 import javax.swing.JOptionPane;
 /**
  *
@@ -14,6 +13,7 @@ import javax.swing.JOptionPane;
 public class AgregarLibroGui extends javax.swing.JFrame {
     private Biblioteca biblioteca;
     private BibliotecaGUI bibliotecaGUI;
+    
     /**
      * Creates new form AgregarLibroGui
      * @param biblioteca
@@ -241,6 +241,7 @@ public static void main(String args[]) {
 
     /* Create and display the form */
     java.awt.EventQueue.invokeLater(new Runnable() {
+        @Override
         public void run() {
                 // Esto se modificará cuando se llame desde BibliotecaGUI
                 // new AgregarLibroGui().setVisible(true);
