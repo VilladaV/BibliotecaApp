@@ -84,6 +84,11 @@ public class AgregarLibroGui extends javax.swing.JFrame {
         });
 
         AñadirLibroLista.setText("Añadir");
+        AñadirLibroLista.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AñadirLibroListaActionPerformed(evt);
+            }
+        });
 
         Cancelar.setText("Cancelar");
 
@@ -185,6 +190,10 @@ public class AgregarLibroGui extends javax.swing.JFrame {
     private void IDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IDActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_IDActionPerformed
+
+    private void AñadirLibroListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AñadirLibroListaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_AñadirLibroListaActionPerformed
 
     /**
      * @param args the command line arguments

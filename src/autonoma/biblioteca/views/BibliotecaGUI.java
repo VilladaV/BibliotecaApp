@@ -35,7 +35,7 @@ public class BibliotecaGUI extends javax.swing.JFrame {
         ActualizarL = new javax.swing.JButton();
         EliminarL = new javax.swing.JButton();
         Ordenar = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        Refrescar = new javax.swing.JButton();
         salir = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
 
@@ -93,7 +93,7 @@ public class BibliotecaGUI extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Refrescar");
+        Refrescar.setText("Refrescar");
 
         salir.setText("Salir");
 
@@ -116,7 +116,7 @@ public class BibliotecaGUI extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(Ordenar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)
+                        .addComponent(Refrescar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(salir))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 406, Short.MAX_VALUE))
@@ -147,7 +147,7 @@ public class BibliotecaGUI extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Ordenar)
-                    .addComponent(jButton1)
+                    .addComponent(Refrescar)
                     .addComponent(salir))
                 .addContainerGap())
         );
@@ -233,8 +233,8 @@ public class BibliotecaGUI extends javax.swing.JFrame {
     private javax.swing.JButton BuscarL;
     private javax.swing.JButton EliminarL;
     private javax.swing.JButton Ordenar;
+    private javax.swing.JButton Refrescar;
     private javax.swing.JTable TablaLibros;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
