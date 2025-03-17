@@ -20,8 +20,8 @@ public class BibliotecaGUI extends javax.swing.JFrame {
      * Creates new form BibliotecaGUI
      */
     public BibliotecaGUI() {
-        biblioteca = new Biblioteca();
         initComponents();
+        biblioteca = new Biblioteca();
         tablaModel = (DefaultTableModel) TablaLibros.getModel();
         cargarLibrosTabla();
     }
@@ -266,6 +266,7 @@ public class BibliotecaGUI extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new BibliotecaGUI().setVisible(true);
             }
