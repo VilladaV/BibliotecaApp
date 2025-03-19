@@ -22,9 +22,9 @@ public class Libro {
     /** titulo del libro */
     private String titulo;
 
-    //Autor autor1 = new Autor();
-    /**
-     * Constructor para crear un nuevo libro con el id y título especificados.
+    private Autor autor;
+    
+     /* Constructor para crear un nuevo libro con el id y título especificados.
      * 
      * @param id     identificador del libro
      * @param titulo titulo del libro
@@ -59,6 +59,10 @@ public class Libro {
      */
     public String getTitulo() {
         return titulo;
+    }
+    
+        public String getAutor() {
+            return autor.getNombre() ;
     }
 
     /**
