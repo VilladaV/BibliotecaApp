@@ -31,7 +31,7 @@ public class BibliotecaGUI extends javax.swing.JFrame {
         tablaModel.setRowCount(0); // Limpiar la tabla
         ArrayList<Libro> libros = biblioteca.obtenerLibrosAlfabeticamente();
         for (Libro libro : libros) {
-            tablaModel.addRow(new Object[]{libro.getTitulo(), "Mejía", libro.getId()}); // Corrección aquí
+            tablaModel.addRow(new Object[]{libro.getTitulo(), libro.getAutor(), libro.getId()}); // Corrección aquí
         }
     }
 
