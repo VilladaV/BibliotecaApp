@@ -62,7 +62,7 @@ public class Libro {
     }
     
         public String getAutor() {
-            return autor.getNombre() ;
+            return autor.getNombre();
     }
 
     /**
