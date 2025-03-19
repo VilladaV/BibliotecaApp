@@ -3,6 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package autonoma.biblioteca.views;
+import autonoma.biblioteca.models.Persona;
+import autonoma.biblioteca.models.Autor;
 import autonoma.biblioteca.models.Biblioteca;
 import autonoma.biblioteca.models.Libro;
 import javax.swing.JOptionPane;
@@ -11,6 +13,8 @@ import javax.swing.JOptionPane;
  * @author PABLO VI
  */
 public class AgregarLibroGui extends javax.swing.JFrame {
+    private Persona persona;
+    private Autor autor;
     private Libro libro;
     private Biblioteca biblioteca;
     private BibliotecaGUI bibliotecaGUI;
@@ -65,6 +69,11 @@ public class AgregarLibroGui extends javax.swing.JFrame {
 
         Titulo.setBackground(java.awt.Color.lightGray);
         Titulo.setBorder(null);
+        Titulo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TituloActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("ID");
 
@@ -210,9 +219,9 @@ public class AgregarLibroGui extends javax.swing.JFrame {
         try {
             long id = Long.parseLong(ID.getText());
             String titulo = Titulo.getText();
-             String autor = Autor.getText(); // No 
-             String editorial = Editorial.getText();
-             String profesion = Profesión.getText();
+            String autor = Autor.getText(); // No 
+            String editorial = Editorial.getText();
+            String profesion = Profesión.getText();
 
             Libro nuevoLibro = new Libro(id, titulo);
             if (biblioteca.agregarLibro(nuevoLibro)) {
@@ -232,6 +241,10 @@ public class AgregarLibroGui extends javax.swing.JFrame {
         this.dispose();
         bibliotecaGUI.setEnabled(true);
     }//GEN-LAST:event_CancelarActionPerformed
+
+    private void TituloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TituloActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TituloActionPerformed
 
     /**
      * @param args the command line arguments
