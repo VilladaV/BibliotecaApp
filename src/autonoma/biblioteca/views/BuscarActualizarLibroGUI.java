@@ -5,6 +5,7 @@
 package autonoma.biblioteca.views;
 import autonoma.biblioteca.models.Biblioteca;
 import autonoma.biblioteca.models.Libro;
+import autonoma.biblioteca.models.Autor;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import javax.swing.JOptionPane;
@@ -13,6 +14,7 @@ import javax.swing.JOptionPane;
  * @author PABLO VI
  */
 public class BuscarActualizarLibroGUI extends javax.swing.JFrame {
+    private Autor autor;
     private Biblioteca biblioteca;
     private BibliotecaGUI bibliotecaGUI;
     private Libro libroExistente;
@@ -55,9 +57,9 @@ public class BuscarActualizarLibroGUI extends javax.swing.JFrame {
     private void llenarCampos(Libro libro) {
         ID.setText(String.valueOf(libro.getId()));
         Titulo.setText(libro.getTitulo());
-        Autor.setText(""); // No
-        Editorial.setText("");
-        Profesión.setText("");
+        Autor.setText(autor.getNombre()); // No
+        Editorial.setText(autor.getEditorial());
+        Profesión.setText(autor.getProfesion());
     }
 
     /**
