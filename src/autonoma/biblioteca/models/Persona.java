@@ -14,8 +14,7 @@ package autonoma.biblioteca.models;
  * 
  */
 public class Persona {
-    ////////////////////////////////////////////////////////////////////
-    ///// Atributos
+  
     
     /**
      * Nombre de la persona

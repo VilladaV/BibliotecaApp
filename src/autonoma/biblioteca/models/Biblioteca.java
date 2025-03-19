@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class Biblioteca {
 
     /** lista de libros que pertenecen a la biblioteca */
-    private ArrayList<Libro> libros;
+    private final ArrayList<Libro> libros;
 
     /**
      * Constructor de la clase Biblioteca

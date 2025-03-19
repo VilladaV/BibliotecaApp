@@ -13,6 +13,8 @@ package autonoma.biblioteca.models;
  * @version 1.0.0
  */
 
+
+
 public class Autor extends Persona {    
     /**
      * Nombre De la Editorial

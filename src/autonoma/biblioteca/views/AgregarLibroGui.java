@@ -5,15 +5,16 @@
 package autonoma.biblioteca.views;
 import autonoma.biblioteca.models.Biblioteca;
 import autonoma.biblioteca.models.Libro;
-import autonoma.biblioteca.models.Autor;
 import javax.swing.JOptionPane;
 /**
  *
  * @author PABLO VI
  */
 public class AgregarLibroGui extends javax.swing.JFrame {
+    private Libro libro;
     private Biblioteca biblioteca;
     private BibliotecaGUI bibliotecaGUI;
+    
     /**
      * Creates new form AgregarLibroGui
      * @param biblioteca
@@ -209,11 +210,11 @@ public class AgregarLibroGui extends javax.swing.JFrame {
         try {
             long id = Long.parseLong(ID.getText());
             String titulo = Titulo.getText();
-            // String autor = Autor.getText(); // No se está utilizando la clase Autor por ahora
-            // String editorial = Editorial.getText();
-            // String profesion = Profesión.getText();
+             String autor = Autor.getText(); // No 
+             String editorial = Editorial.getText();
+             String profesion = Profesión.getText();
 
-            Libro nuevoLibro = new Libro(id, titulo); // Solo se crea el libro con ID y título
+            Libro nuevoLibro = new Libro(id, titulo);
             if (biblioteca.agregarLibro(nuevoLibro)) {
                 JOptionPane.showMessageDialog(this, "Libro agregado correctamente.");
                 bibliotecaGUI.actualizarTabla();
@@ -223,7 +224,7 @@ public class AgregarLibroGui extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "El libro con ese ID ya existe.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Por favor, ingrese un ID válido.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Por favor, ingrese un ID numerico.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_AñadirLibroListaActionPerformed
 
@@ -241,13 +242,13 @@ public static void main(String args[]) {
 
     /* Create and display the form */
     java.awt.EventQueue.invokeLater(new Runnable() {
+        @Override
         public void run() {
                 // Esto se modificará cuando se llame desde BibliotecaGUI
                 // new AgregarLibroGui().setVisible(true);
         }
     });
 }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField Autor;
     private javax.swing.JButton AñadirLibroLista;
@@ -264,4 +265,4 @@ public static void main(String args[]) {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
-
+}

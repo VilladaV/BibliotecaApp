@@ -55,9 +55,9 @@ public class BuscarActualizarLibroGUI extends javax.swing.JFrame {
     private void llenarCampos(Libro libro) {
         ID.setText(String.valueOf(libro.getId()));
         Titulo.setText(libro.getTitulo());
-        // Autor.setText(""); // No se tiene la información del autor
-        // Editorial.setText("");
-        // Profesión.setText("");
+        Autor.setText(""); // No
+        Editorial.setText("");
+        Profesión.setText("");
     }
 
     /**
@@ -297,9 +297,9 @@ public class BuscarActualizarLibroGUI extends javax.swing.JFrame {
             try {
                 long id = Long.parseLong(ID.getText());
                 String titulo = Titulo.getText();
-                // String autor = Autor.getText();
-                // String editorial = Editorial.getText();
-                // String profesion = Profesión.getText();
+                String autor = Autor.getText();
+                String editorial = Editorial.getText();
+                String profesion = Profesión.getText();
 
                 Libro nuevoLibro = new Libro(id, titulo);
                 if (biblioteca.actualizarLibro(libroExistente.getId(), nuevoLibro)) {

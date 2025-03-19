@@ -14,8 +14,8 @@ import javax.swing.JOptionPane;
  * @author PABLO VI
  */
 public class BibliotecaGUI extends javax.swing.JFrame {
-    private Biblioteca biblioteca;
-    private DefaultTableModel tablaModel;
+    private final Biblioteca biblioteca;
+    private final DefaultTableModel tablaModel;
     /**
      * Creates new form BibliotecaGUI
      */
@@ -23,14 +23,15 @@ public class BibliotecaGUI extends javax.swing.JFrame {
         initComponents();
         biblioteca = new Biblioteca();
         tablaModel = (DefaultTableModel) TablaLibros.getModel();
-        cargarLibrosTabla();
+       cargarLibrosTabla();
     }
-    //Act tabla debe ser privado
+    // Método para cargar los libros en la tabla
     private void cargarLibrosTabla() {
+        DefaultTableModel tablaModel = (DefaultTableModel) TablaLibros.getModel();
         tablaModel.setRowCount(0); // Limpiar la tabla
         ArrayList<Libro> libros = biblioteca.obtenerLibrosAlfabeticamente();
         for (Libro libro : libros) {
-            tablaModel.addRow(new Object{libro.getTitulo(), "Autor Pendiente", libro.getId()}); // Autor pendiente hasta tener la clase Autor
+            tablaModel.addRow(new Object[]{libro.getTitulo(), libro.getAutor(), libro.getId()}); // Corrección aquí
         }
     }
 
@@ -113,6 +114,11 @@ public class BibliotecaGUI extends javax.swing.JFrame {
         Refrescar.setText("Refrescar");
 
         salir.setText("Salir");
+        salir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                salirActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("Gestión de Biblioteca");
 
@@ -189,36 +195,6 @@ public class BibliotecaGUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void AgregarLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgregarLActionPerformed
-        AgregarLibroGui agregarGUI = new AgregarLibroGui(biblioteca, this);
-        agregarGUI.setVisible(true);
-        this.setEnabled(false);
-
-    }//GEN-LAST:event_AgregarLActionPerformed
-
-    private void ActualizarLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarLActionPerformed
-        int filaSeleccionada = TablaLibros.getSelectedRow();
-        if (filaSeleccionada != -1) {
-            long idLibro = (long) TablaLibros.getValueAt(filaSeleccionada, 2);
-            Libro libroAActualizar = biblioteca.buscarLibro(idLibro);
-            if (libroAActualizar != null) {
-                BuscarActualizarLibroGUI actualizarGUI = new BuscarActualizarLibroGUI(biblioteca, libroAActualizar, this);
-                actualizarGUI.setVisible(true);
-                this.setEnabled(false);
-            } else {
-                JOptionPane.showMessageDialog(this, "No se encontró el libro con ID: " + idLibro, "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "Seleccione un libro para actualizar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-        }
-    }//GEN-LAST:event_ActualizarLActionPerformed
-
-    private void BuscarLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarLActionPerformed
-        BuscarActualizarLibroGUI buscarGUI = new BuscarActualizarLibroGUI(biblioteca, this);
-        buscarGUI.setVisible(true);
-        this.setEnabled(false);
-    }//GEN-LAST:event_BuscarLActionPerformed
-
     private void OrdenarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OrdenarActionPerformed
         cargarLibrosTabla();
         JOptionPane.showMessageDialog(this, "Libros ordenados alfabéticamente.");
@@ -230,48 +206,46 @@ public class BibliotecaGUI extends javax.swing.JFrame {
             long idLibro = (long) TablaLibros.getValueAt(filaSeleccionada, 2);
             EliminarLibroGUI eliminarGUI = new EliminarLibroGUI(biblioteca, idLibro, this);
             eliminarGUI.setVisible(true);
-            this.setEnabled(false);
+            //this.setEnabled(false);
         } else {
             JOptionPane.showMessageDialog(this, "Seleccione un libro para eliminar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_EliminarLActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
+    private void ActualizarLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarLActionPerformed
+        int filaSeleccionada = TablaLibros.getSelectedRow();
+        if (filaSeleccionada != -1) {
+            long idLibro = (long) TablaLibros.getValueAt(filaSeleccionada, 2);
+            Libro libroAActualizar = biblioteca.buscarLibro(idLibro);
+            if (libroAActualizar != null) {
+                BuscarActualizarLibroGUI actualizarGUI = new BuscarActualizarLibroGUI(biblioteca, libroAActualizar, this);
+                actualizarGUI.setVisible(true);
+                //this.setEnabled(false);
+            } else {
+                JOptionPane.showMessageDialog(this, "No se encontró el libro con ID: " + idLibro, "Error", JOptionPane.ERROR_MESSAGE);
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(BibliotecaGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(BibliotecaGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(BibliotecaGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(BibliotecaGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } else {
+            JOptionPane.showMessageDialog(this, "Seleccione un libro para actualizar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
         }
-        //</editor-fold>
+    }//GEN-LAST:event_ActualizarLActionPerformed
+
+    private void BuscarLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarLActionPerformed
+        BuscarActualizarLibroGUI buscarGUI = new BuscarActualizarLibroGUI(biblioteca, this);
+        buscarGUI.setVisible(true);
+       // this.setEnabled(false);
+    }//GEN-LAST:event_BuscarLActionPerformed
+
+    private void AgregarLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgregarLActionPerformed
+        AgregarLibroGui agregarGUI = new AgregarLibroGui(biblioteca, this);
+        agregarGUI.setVisible(true);
+       // this.setEnabled(false);
+    }//GEN-LAST:event_AgregarLActionPerformed
+
+    private void salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_salirActionPerformed
 
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new BibliotecaGUI().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ActualizarL;
@@ -290,10 +264,6 @@ public class BibliotecaGUI extends javax.swing.JFrame {
 
     private void RefrescarActionPerformed(java.awt.event.ActionEvent evt) {
         cargarLibrosTabla();
-    }
-
-    private void salirActionPerformed(java.awt.event.ActionEvent evt) {
-        System.exit(0);
     }
 
     public void actualizarTabla() {

@@ -11,9 +11,7 @@ package autonoma.biblioteca.models;
  * @version 1.0.0
  */
 public class Libro {
-    //////////////////////////////////////////
-    //////////////////atributos
-    
+
 /**
  * Clase que representa un libro en la biblioteca
  * Cada libro tiene un identificador y un titulo
@@ -24,6 +22,7 @@ public class Libro {
     /** titulo del libro */
     private String titulo;
 
+    //Autor autor1 = new Autor();
     /**
      * Constructor para crear un nuevo libro con el id y título especificados.
      * 
