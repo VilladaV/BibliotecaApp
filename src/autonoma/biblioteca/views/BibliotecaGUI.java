@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author PABLO VI
+ * @author Johan Andrés Villada
  */
 public class BibliotecaGUI extends javax.swing.JFrame {
     private final Biblioteca biblioteca;

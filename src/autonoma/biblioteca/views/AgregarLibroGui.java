@@ -10,7 +10,7 @@ import autonoma.biblioteca.models.Libro;
 import javax.swing.JOptionPane;
 /**
  *
- * @author PABLO VI
+ * @author Johan Andrés Villada
  */
 public class AgregarLibroGui extends javax.swing.JFrame {
     private Persona persona;
